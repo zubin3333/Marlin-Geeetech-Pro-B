@@ -406,7 +406,7 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5 // Changed from 1 to 5 because replacing Geeetech MK8 with E3D v6
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -450,14 +450,14 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 275
-#define HEATER_1_MAXTEMP 275
-#define HEATER_2_MAXTEMP 275
-#define HEATER_3_MAXTEMP 275
-#define HEATER_4_MAXTEMP 275
-#define HEATER_5_MAXTEMP 275
-#define HEATER_6_MAXTEMP 275
-#define HEATER_7_MAXTEMP 275
+#define HEATER_0_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_1_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_2_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_3_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_4_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_5_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_6_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
+#define HEATER_7_MAXTEMP 285 // Changed from 275 to 285 (Geeetech MK8 -> E3D v6)
 #define BED_MAXTEMP      125
 
 //===========================================================================
@@ -481,10 +481,15 @@
   #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 
+  // E3D v6 (Tuned by Zubin on actual printer 15/4/20)
+  #define DEFAULT_Kp 22.83
+  #define DEFAULT_Ki 1.67
+  #define DEFAULT_Kd 78.10
+
   // Geeetech MK8 Extruder
-  #define DEFAULT_Kp 12.33
-  #define DEFAULT_Ki 0.51
-  #define DEFAULT_Kd 74.50
+  //#define DEFAULT_Kp 12.33
+  //#define DEFAULT_Ki 0.51
+  //#define DEFAULT_Kd 74.50
 
   // CTC MK8 Extruder
   //#define DEFAULT_Kp 19.86
@@ -745,11 +750,11 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define PRO_B_WITH_LEADSCREW
+//#define PRO_B_WITH_LEADSCREW
 #if ENABLED(PRO_B_WITH_LEADSCREW)       // M8 leadscrew version
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { 78.74, 78.74, 400, 105 }
 #else                                   // M8 threaded rod version
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 78.74, 78.74, 2560, 105 }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 2560, 93 }
 #endif
 
 /**
@@ -1114,12 +1119,12 @@
 #define Y_BED_SIZE 200
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -12
-#define Y_MIN_POS -8
+#define X_MIN_POS -10
+#define Y_MIN_POS -10
 #define Z_MIN_POS 0
-#define X_MAX_POS (-X_MIN_POS+X_BED_SIZE)
-#define Y_MAX_POS (-Y_MIN_POS+Y_BED_SIZE)
-#define Z_MAX_POS 200
+#define X_MAX_POS X_BED_SIZE
+#define Y_MAX_POS Y_BED_SIZE
+#define Z_MAX_POS 180
 
 /**
  * Software Endstops
@@ -1377,8 +1382,8 @@
 #define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE) / 2)    // X point for Z homing when homing all axes (G28).
-  #define Z_SAFE_HOMING_Y_POINT ((Y_BED_SIZE) / 2)    // Y point for Z homing when homing all axes (G28).
+  #define Z_SAFE_HOMING_X_POINT X_MIN_POS    // X point for Z homing when homing all axes (G28).
+  #define Z_SAFE_HOMING_Y_POINT Y_MIN_POS    // Y point for Z homing when homing all axes (G28).
 #endif
 
 // Homing speeds (mm/m)
@@ -2148,7 +2153,7 @@
 // Use software PWM to drive the fan, as for the heaters. This uses a very low frequency
 // which is not as annoying as with the hardware PWM. On the other hand, if this frequency
 // is too low, you should also increment SOFT_PWM_SCALE.
-//#define FAN_SOFT_PWM
+#define FAN_SOFT_PWM
 
 // Incrementing this by 1 will double the software PWM frequency,
 // affecting heaters, and the fan if FAN_SOFT_PWM is enabled.
